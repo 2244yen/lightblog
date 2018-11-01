@@ -6,7 +6,6 @@ import { convertText } from '../../../utils/helper'
 import FormValidator from '../../../utils/validator'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import apiArticle from '../../../utils/validator'
-import 'medium-editor/dist/css/medium-editor.min.css'
 import './index.scss'
 
 class ArticleForm extends React.Component {

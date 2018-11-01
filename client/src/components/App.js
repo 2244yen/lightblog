@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import routes from '../routes'
 import Layout from './Layout'
 import authenticate from '../routes/authenticate'
-import history from '../utils/history'
 
 class App extends React.Component {
   renderRoutes (routes) {
@@ -23,7 +22,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <Router history={history}>
+      <Router>
         <Switch>
           <Layout>
             { this.renderRoutes(routes) }

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import 'react-notifications/lib/notifications.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css';
 import './assets/styles/main.scss';
 import { getUser } from './redux/actions/userAction';
 
