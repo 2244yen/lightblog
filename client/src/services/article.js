@@ -1,9 +1,20 @@
 import api from './api'
 const err = "Có lỗi trong quá trình xử lý. Vui lòng kiểm tra lại."
 
-var getList = () => {
+var getList = (data) => {
   return new Promise((resolve, reject) => {
-    api.get('/articles').then(respone => {
+    let link = ''
+    for (var prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        link += prop + '=' + data[prop] + '&'
+      }
+    }
+    if (link) {
+      link = '/articles?' + link.substring(0, link.length - 1)
+    } else {
+      link = '/articles'
+    }
+    api.get(link).then(respone => {
       resolve(respone.data)
     }, respone => {
       reject(respone)
@@ -19,7 +30,18 @@ var createArticle = (data) => {
   })
 }
 
+var getDetail = (id) => {
+  return new Promise((resolve, reject) => {
+    api.get('/articles/' + id).then(respone => {
+      resolve(respone.data)
+    }, respone => {
+      reject(respone)
+    })
+  })
+}
+
 export default {
   getList,
-  createArticle
+  createArticle,
+  getDetail
 }

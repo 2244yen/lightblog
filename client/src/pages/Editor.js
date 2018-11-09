@@ -1,5 +1,5 @@
 import React from 'react'
-import ArticleForm from '../components/Article/Form'
+import ArticleForm from '../components/ArticleView/Form'
 
 function Editor (props) {
   return (

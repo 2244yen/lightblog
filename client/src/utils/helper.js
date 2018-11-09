@@ -12,6 +12,7 @@ export const convertText = (original) => {
     str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
     str = str.replace(/ + /g," ");
     str = str.trim();
-    return str;
+    str = str.replace(/\s/g, '-');
+    return str
   }
 }

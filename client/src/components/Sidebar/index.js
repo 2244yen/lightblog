@@ -1,5 +1,7 @@
 import React from 'react'
 import SearchForm from './SearchForm'
+import AsideFeed from '../AsideFeed'
+import { connect } from 'react-redux'
 import './index.scss'
 
 class Sidebar extends React.Component {
@@ -7,27 +9,26 @@ class Sidebar extends React.Component {
     return (
       <div>
         <aside>
-          <SearchForm search={ this.searchData } />
+          <SearchForm search={ this.searchInSidebar } />
         </aside>
         <aside>
           <h4>Bài viết nổi bật</h4>
-          <ul>
-            
-          </ul>
+          <AsideFeed />
         </aside>
         <aside>
           <h4>Tags</h4>
-          <ul>
-            
-          </ul>
         </aside>
       </div>
     )
   }
 
-  searchData = () => {
-    console.log('search')
+  searchInSidebar = (data, path) => {
+    this.props.search(data, path)
   }
 }
 
-export default Sidebar
+function mapStateToProps (state) {
+  return { articles: state.articleReducer.articles }
+}
+
+export default connect(mapStateToProps)(Sidebar)

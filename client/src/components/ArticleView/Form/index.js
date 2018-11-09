@@ -142,7 +142,7 @@ class ArticleForm extends React.Component {
       .then(response => {
         NotificationManager.success('Đăng bài thành công!', 'Thông báo', 2000)
       })
-      .catch(error => NotificationManager.error(err, 'Thông báo', 2000))
+      .catch(error => NotificationManager.error('Đăng bài không thành công!', 'Thông báo', 2000))
     } else {
       NotificationManager.error('Error message', 'Thông báo', 2000)
     }

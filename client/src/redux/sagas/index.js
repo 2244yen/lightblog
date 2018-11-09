@@ -1,10 +1,13 @@
-import { all } from 'redux-saga/effects'
-import userSaga from './user'
-import articleSaga from './article'
+import * as userSaga from './user'
+import * as articleSaga from './article'
 
-export default function* rootSaga() {
-  yield all([
-    userSaga(),
-    articleSaga()
-  ])
+const sagas = {
+  ...articleSaga,
+  ...userSaga
+}
+
+export function registerWithMiddleware(middleware: { run: Function }) {
+  for (let name in sagas) {
+    middleware.run(sagas[name])
+  }
 }

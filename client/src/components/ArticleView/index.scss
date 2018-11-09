@@ -1,0 +1,29 @@
+.blog-item {
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    .blog-item_title {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    .blog-item_metadata {
+        small {
+            margin-right: 10px;
+            color: #767676;
+        }
+    }
+    .blog-item_cnt {
+        margin-top: 20px;
+    }
+    .like-count {
+        margin-left: 10px;
+    }
+    .blog-item_tags {
+        a {
+            padding-right: 10px;
+        }
+    }
+    .post-stats {
+        display: flex;
+        align-items: center;
+    }
+}

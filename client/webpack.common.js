@@ -1,10 +1,19 @@
 const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MODE = process.env.WEBPACK_MODE;
 
 const config = {
+  entry: {
+    index: './src/index.js'
+  },
+  output: {
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
+  },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
@@ -14,12 +23,6 @@ const config = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
-      },{
-        test: /\.(sa|sc|c)ss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [{ loader: 'css-loader', options: { minimize: true } }, 'sass-loader']
-        })
       },{
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: [{
@@ -37,19 +40,24 @@ const config = {
             options: { minimize: true }
           }
         ]
+      },{
+        test: /\.(png|jpg|gif)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'assets/'
+          }
+        }]
       }
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Light Blog',
       inject: true,
       template: './public/index.html',
-      hash: true,
       filename: 'index.html'
-    }),
-    new ExtractTextPlugin({
-      filename: 'style.css'
     }),
     new webpack.DefinePlugin({ 
       'process.env.NODE_ENV': JSON.stringify(MODE === 'development' ? 'development' : 'production') 
@@ -58,15 +66,4 @@ const config = {
   ]
 }
 
-// if (MODE === 'development') {
-// }
-config.devtool = 'inline-source-map'
-config.devServer = {
-  historyApiFallback: true,
-  publicPath: '/',
-  hot: true,
-  inline: true,
-  port: 3000
-}
-  
 module.exports = config;

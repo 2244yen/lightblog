@@ -27,10 +27,10 @@ const config = {
       },{
         test: /\.(sa|sc|c)ss$/,
         use: [
-          'style-loader',
+          'style-loader', //output to <style> tag
           MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { url: false, sourceMap: true } },
-          { loader: 'sass-loader', options: { sourceMap: true } }
+          { loader: 'css-loader', options: { url: false, sourceMap: true } }, // parse css to js, resolves any dependencies
+          { loader: 'sass-loader', options: { sourceMap: true } } // transform sass to css
         ]
       },{
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,

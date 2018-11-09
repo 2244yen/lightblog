@@ -18,9 +18,6 @@ window.moment = moment;
 if (sessionStorage.getItem('auth')) {
   var data = sessionStorage.getItem('auth')
   store.dispatch({ type: 'SET_USER', user: JSON.parse(data) })
-  var _id = JSON.parse(data)._id
-  // const response = getUser(_id)
-  // store.dispatch({ type: 'SET_USER', user: response })
 }
 
 ReactDOM.render(
@@ -29,3 +26,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+
+if (module.hot) {
+  module.hot.accept()
+}

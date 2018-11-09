@@ -1,10 +1,12 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 
 function SearchForm (props) {
   let changeInput = (e) => {
     e.preventDefault()
     if (e.keyCode === 13) {
-      props.search(e.target.value)
+      const path = props.location.pathname.trim().split(/\//)
+      props.search(e.target.value, path[1])
     }
   }
   return (
@@ -14,4 +16,4 @@ function SearchForm (props) {
   )
 }
 
-export default SearchForm
+export default withRouter(SearchForm)

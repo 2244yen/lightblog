@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import apiArticle from '../../services/article'
 import { connect } from 'react-redux'
 import { fetchDataStart } from '../../redux/actions/articleAction'
 import './index.scss'
+// import apiArticle from '../../services/article'
 
 function ejectHtmlTag (str) {
   if (str.trim()) {
@@ -16,27 +16,28 @@ class Articles extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      articles: []
+      articles: [],
+      dataFilter: {}
     }
   }
 
   componentDidMount () {
-    apiArticle.getList().then(response => {
-      if (response) {
-        this.setState({ articles: response.data })
-      }
-    }, err => {
-      console.log(err)
-    })
-    // this.props.getData()
+    // apiArticle.getList().then(response => {
+    //   if (response) {
+    //     this.setState({ articles: response.data })
+    //   }
+    // }, err => {
+    //   console.log(err)
+    // })
+    this.props.getData()
   }
   
   renderList () {
     let result = ''
-    if (this.state.articles) {
-      const articlesList = this.state.articles
+    if (this.props.articles) {
+      const articlesList = this.props.articles
       result = articlesList.map((item, key) => {
-        const link = `/${item.url}`
+        const link = `/blog/${item.url}`
         return (
           <div className="blog-item" key={key}>
             <div className="blog-info">
@@ -54,7 +55,6 @@ class Articles extends Component {
                 <div className="blog-item_cnt">
                   { ejectHtmlTag(item.description) }
                 </div>
-                
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getData: () => { dispatch(fetchDataStart()) }
+    getData: (params) => { dispatch(fetchDataStart(params)) }
   }
 }
 

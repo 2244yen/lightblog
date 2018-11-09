@@ -27,7 +27,8 @@ class Header extends Component {
       return (
         <NavDropdown eventKey={3} title={ (<img src={this.props.user.picture} class="profile-img" />) } id="basic-nav-dropdown">
           <MenuItem eventKey={3.1} href={ '/profile' }>Profile</MenuItem>
-          <MenuItem eventKey={3.2} onClick={ this.signOutUser }>Đăng xuất</MenuItem>
+          <MenuItem eventKey={3.2} href={ '/editor' }>Tạo bài viết</MenuItem>
+          <MenuItem eventKey={3.3} onClick={ this.signOutUser }>Đăng xuất</MenuItem>
         </NavDropdown>
       )
     }
@@ -45,7 +46,7 @@ class Header extends Component {
         <Navbar collapseOnSelect className="blog-navbar">
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/">My Site</a>
+              <a href="/">Logo</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>

@@ -2,7 +2,7 @@ import { takeLatest, put } from 'redux-saga/effects'
 import * as userAction from '../actions/userAction'
 import apiUser from '../../services/user'
 
-export default function* watchSetUser () {
+export function* watchSetUser () {
   yield takeLatest('SAVE_USER', saveUserSaga)
 }
 

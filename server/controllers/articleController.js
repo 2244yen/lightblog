@@ -8,47 +8,50 @@ const cloudinary = require('cloudinary')
 module.exports = {
   create: (req, res, next) => {
     let { body } = req
-    console.log(req.files)
     if (req.files.thumbnail) {
       cloudinary.uploader.upload(req.files.thumbnail.path, (result) => {
         body.thumbnail = result.url || ''
-        saveArticle(body)
       },{
         resource_type: 'image'
       })
-    } else {
-      saveArticle(body)
     }
+    saveArticle(body)
     function saveArticle (obj) {
       new Article(obj).save((err, article) => {
         if (err)
-          return res.status(500).send({ "message": "fail" })
-        else
-          return res.status(200).send({ "message": "success", "data": article })
-          // return article.addAuthor(body.author).then(_article => {
-          //   res.status(200).send({ "message": "success", "data": _article })
-          // })
-        next()
+          return res.status(500).send({ "message": err })
+        return res.status(201).send({ "message": "success", "data": article })
       })
     }
   },
   getAll: (req, res, next) => {
-    let { params } = req
-    Article.find(params.id)
-      .populate('author')
-      .populate('comments.author')
-      .sort([['createdAt', -1]])
-      .exec((err, articles) => {
-      if (err)
-        res.send(err)
-      else if (!articles)
-        res.send(400)
-      else
-        res.status(200).send({ "message": "success", "data": articles })
+    let { query } = req
+    let data = {}
+    const queryData = Article.find()
+    if (query.isFeatured) {
+      queryData.where('likes').equals(0)
+    }
+    queryData.limit(10).sort({ createdAt: -1 })
+    queryData.exec(function (err, data) {
+      if (err) { 
+        res.status(404).json({"error": "not found","err": err})
+        return
+      }
+      res.status(200).send({ "message": "success", "data": data })
+    })
+  },
+  getTags: (req, res, next) => {
+    const query = Article.find()
+    query.exec(function (err, data) {
+      if (err) { 
+        res.status(404).json({"error": "not found","err": err})
+        return
+      }
+      res.status(200).send({ "message": "success", "data": data })
     })
   },
   getDetail: (req, res, next) => {
-    Article.findById(req.params.id).then(response => {
+    Article.findOne({ url: req.params.id }).then(response => {
       res.status(200).send({ "message": "success", "data": response })
     }).catch(err => {
       res.status(500).send({ "message": "fail", "err": err })
