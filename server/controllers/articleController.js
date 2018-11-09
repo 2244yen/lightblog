@@ -31,6 +31,9 @@ module.exports = {
     if (query.isFeatured) {
       queryData.where('likes').equals(0)
     }
+    if (query.search) {
+      queryData.or[{ title: query.search }, { description: query.search }]
+    }
     queryData.limit(10).sort({ createdAt: -1 })
     queryData.exec(function (err, data) {
       if (err) { 

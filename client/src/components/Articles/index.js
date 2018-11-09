@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PubSub from 'pubsub-js'
 import { fetchDataStart } from '../../redux/actions/articleAction'
 import './index.scss'
 // import apiArticle from '../../services/article'
@@ -19,17 +20,6 @@ class Articles extends Component {
       articles: [],
       dataFilter: {}
     }
-  }
-
-  componentDidMount () {
-    // apiArticle.getList().then(response => {
-    //   if (response) {
-    //     this.setState({ articles: response.data })
-    //   }
-    // }, err => {
-    //   console.log(err)
-    // })
-    this.props.getData()
   }
   
   renderList () {
@@ -64,13 +54,31 @@ class Articles extends Component {
     return result
   }
 
+  onSearch (msg, data) {
+    const dataFilter = this.state.dataFilter
+    dataFilter.search = data[0] || ''
+    this.setState({ dataFilter })
+  }
+
   render () {
     return (
       <div className="blog">
         { this.renderList() }
       </div>
     )
-  } 
+  }
+
+  componentDidMount () {
+    // apiArticle.getList().then(response => {
+    //   if (response) {
+    //     this.setState({ articles: response.data })
+    //   }
+    // }, err => {
+    //   console.log(err)
+    // })
+    this.props.getData(this.state.dataFilter)
+    PubSub.subscribe('SEARCH', this.onSearch.bind(this))
+  }
 }
 
 function mapStateToProps (state) {

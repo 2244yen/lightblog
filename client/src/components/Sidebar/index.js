@@ -9,7 +9,8 @@ class Sidebar extends React.Component {
     return (
       <div>
         <aside>
-          <SearchForm search={ this.searchInSidebar } />
+          {/*<SearchForm search={ this.searchInSidebar } />*/}
+          <SearchForm />
         </aside>
         <aside>
           <h4>Bài viết nổi bật</h4>
@@ -22,9 +23,9 @@ class Sidebar extends React.Component {
     )
   }
 
-  searchInSidebar = (data, path) => {
-    this.props.search(data, path)
-  }
+  // searchInSidebar = (data, path) => {
+  //   this.props.search(data, path)
+  // }
 }
 
 function mapStateToProps (state) {

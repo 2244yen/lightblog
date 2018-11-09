@@ -18,7 +18,7 @@ class Layout extends React.Component {
               { this.props.children }
             </div>
             <div className="col-md-4 col-sm-4">
-              <Sidebar search={ this.onSearch } />
+              <Sidebar />
             </div>
           </div>
         </div>
@@ -26,13 +26,12 @@ class Layout extends React.Component {
     )
   }
 
-  onSearch (data, path) {
-    console.log(data)
-    // const dataFilter = this.state.dataFilter
-    // dataFilter.search = data
-    // this.setState({ dataFilter: dataFilter })
-    // console.log(this.state.dataFilter)
-  }
+  // onSearch (data, path) {
+  //   const dataFilter = this.state.dataFilter
+  //   dataFilter.search = data
+  //   this.setState({ dataFilter: dataFilter })
+  //   console.log(this.state.dataFilter)
+  // }
 }
 
 
