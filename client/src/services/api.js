@@ -2,7 +2,7 @@ import axios from 'axios'
 import config from '../config'
 
 axios.defaults.baseURL = config.API_URL
-// axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 function getHeaders () {
   return {
@@ -25,6 +25,15 @@ export default {
   post (route, data) {
     return new Promise((response, reject) => {
       axios.post(route, data).then((res) => {
+        response(res)
+      }, (res) => {
+        reject(res)
+      })
+    })
+  },
+  put (route, data = {}) {
+    return new Promise((response, reject) => {
+      axios.put(route, data).then((res) => {
         response(res)
       }, (res) => {
         reject(res)

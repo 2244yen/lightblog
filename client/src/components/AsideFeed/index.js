@@ -1,5 +1,5 @@
 import React from 'react'
-import apiArticle from '../../services/article'
+import './index.scss'
 
 class AsideFeed extends React.Component {
   constructor (props) {
@@ -24,12 +24,13 @@ class AsideFeed extends React.Component {
 
   render () {
     const result = this.state.featuredList.map((item, key) => {
-      return (<li key={key}>{ item.title }</li>)
+      const link = '/blog/' + item.url
+      return (<li key={key}><a href={ link }>{ item.title }</a></li>)
     })
 
     return (
-      <div>
-        <ul>
+      <div className="feed-wrap">
+        <ul className="list-unstyled">
           { result }
         </ul>
       </div>

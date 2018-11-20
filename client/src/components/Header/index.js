@@ -52,7 +52,7 @@ class Header extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={2} href="/blog">
+              <NavItem eventKey={2} href="/category">
                 Bài viết
               </NavItem>
             </Nav>

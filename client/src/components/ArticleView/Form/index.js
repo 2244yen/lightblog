@@ -4,8 +4,8 @@ import axios from 'axios'
 import CKEditor from 'react-ckeditor-component'
 import { convertText } from '../../../utils/helper'
 import FormValidator from '../../../utils/validator'
+import { Redirect } from 'react-router-dom'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
-import apiArticle from '../../../utils/validator'
 import './index.scss'
 
 class ArticleForm extends React.Component {
@@ -32,21 +32,26 @@ class ArticleForm extends React.Component {
       tags: '',
       thumbnail: '',
       loading: false,
-      validation: this.validator.valid()
+      validation: this.validator.valid(),
+      redirect: false
     }
     this.submitForm = this.submitForm.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.previewImg = this.previewImg.bind(this)
     this.updateData = this.updateData.bind(this)
-    this.updateText = this.updateText.bind(this)
+    this.updateDescription = this.updateDescription.bind(this)
   }
 
   componentDidMount () {
   }
 
   render() {
+    console.log('mounted')
     return (
       <div>
+        { this.state.redirect &&
+          <Redirect to="/editor" />
+        }
         <form className="article-form" autocomplete="off">
           <div className="form-group">
             <input type="text" className="form-control" placeholder="Article Title" name="title" onChange={ this.updateData } />
@@ -56,7 +61,7 @@ class ArticleForm extends React.Component {
               activeClass="p10" 
               content={ this.state.text } 
               events={{
-                "change": this.updateText
+                "change": this.updateDescription
               }}
             />
           </div>
@@ -84,7 +89,7 @@ class ArticleForm extends React.Component {
     )
   }
   
-  updateText (e) {
+  updateDescription (e) {
     let content = e.editor.getData()
     this.setState({
       text: content,
@@ -126,9 +131,9 @@ class ArticleForm extends React.Component {
       formData.append('title', this.state.title)
       formData.append('url', url)
       formData.append('description', this.state.description)
-      formData.append('text', this.state.text)
-      formData.append('tags', this.state.tags)
       formData.append('thumbnail', this.state.thumbnail)
+      formData.append('text', this.state.text)
+      formData.append('tags', JSON.stringify(this.state.tags.split(',')))
       formData.append('author', this.props.user._id)
       formData.append('likes', 0)
       axios({
@@ -141,6 +146,7 @@ class ArticleForm extends React.Component {
       })
       .then(response => {
         NotificationManager.success('Đăng bài thành công!', 'Thông báo', 2000)
+        this.setState({ redirect: true })
       })
       .catch(error => NotificationManager.error('Đăng bài không thành công!', 'Thông báo', 2000))
     } else {

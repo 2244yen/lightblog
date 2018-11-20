@@ -13,7 +13,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/blog',
+    path: '/category',
     exact: true,
     component: Category
   },
@@ -36,6 +36,10 @@ const routes = [
     path: '/profile/:id',
     exact: true,
     component: Profile
+  },{
+    path: '/tag/:id',
+    exact: true,
+    component: Category
   }
 ]
 

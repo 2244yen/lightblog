@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import PubSub from 'pubsub-js'
-import { fetchDataStart } from '../../redux/actions/articleAction'
+import Pagi from '../Pagination'
+import apiArticle from '../../services/article'
 import './index.scss'
-// import apiArticle from '../../services/article'
 
 function ejectHtmlTag (str) {
   if (str.trim()) {
@@ -13,19 +12,25 @@ function ejectHtmlTag (str) {
   return str
 }
 
-class Articles extends Component {
+class Articles extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       articles: [],
-      dataFilter: {}
+      dataFilter: {
+        page: 1
+      },
+      total: 1,
+      limit: 10
     }
+    this.onSearch = this.onSearch.bind(this)
+    this.changePage = this.changePage.bind(this)
   }
   
   renderList () {
     let result = ''
-    if (this.props.articles) {
-      const articlesList = this.props.articles
+    if (this.state.articles) {
+      const articlesList = this.state.articles
       result = articlesList.map((item, key) => {
         const link = `/blog/${item.url}`
         return (
@@ -58,37 +63,54 @@ class Articles extends Component {
     const dataFilter = this.state.dataFilter
     dataFilter.search = data[0] || ''
     this.setState({ dataFilter })
+    this.getList()
+  }
+
+  getList () {
+    apiArticle.getList(this.state.dataFilter).then(response => {
+      if (response) {
+        const totalPage = Math.ceil(response.total / this.state.limit)
+        this.setState({ articles: response.data, total: totalPage })
+        window.scrollTo(0,0)
+      }
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  changePage (page) {
+    const dataFilter = this.state.dataFilter
+    dataFilter.page = page
+    this.setState({ dataFilter })
+    this.getList()
   }
 
   render () {
+    const { dataFilter, total } = this.state
     return (
       <div className="blog">
         { this.renderList() }
+        <div className="pagi-wrap">
+          <div className="text-right">
+            <Pagi total={ total } page={ dataFilter.page } changePage={ this.changePage }/>
+          </div>
+        </div>
       </div>
     )
   }
 
   componentDidMount () {
-    // apiArticle.getList().then(response => {
-    //   if (response) {
-    //     this.setState({ articles: response.data })
-    //   }
-    // }, err => {
-    //   console.log(err)
-    // })
-    this.props.getData(this.state.dataFilter)
-    PubSub.subscribe('SEARCH', this.onSearch.bind(this))
+    if (this.props.slug) {
+      const dataFilter = this.state.dataFilter
+      dataFilter.tags = this.props.slug
+      this.setState({ dataFilter }, function () {
+        this.getList()
+      })
+    } else {
+      this.getList()
+    }
+    PubSub.subscribe('SEARCH', this.onSearch)
   }
 }
 
-function mapStateToProps (state) {
-  return { articles: state.articleReducer.articles }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getData: (params) => { dispatch(fetchDataStart(params)) }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Articles)
+export default Articles

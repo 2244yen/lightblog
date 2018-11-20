@@ -21,4 +21,10 @@ router.delete('/:id/delete', articleCtrl.delete)
 // Update article
 router.put('/:id/update', articleCtrl.update)
 
+// Clap Article 
+router.put('/:id/clap', articleCtrl.clap)
+
+//get related
+router.get('/:id/related', articleCtrl.getRelated)
+
 module.exports = router

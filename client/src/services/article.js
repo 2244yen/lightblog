@@ -40,8 +40,41 @@ var getDetail = (id) => {
   })
 }
 
+var getTags = () => {
+  return new Promise((resolve, reject) => {
+    api.get('/tags').then(respone => {
+      resolve(respone.data)
+    }, respone => {
+      reject(respone)
+    })
+  })
+}
+
+var clap = (id) => {
+  return new Promise((resolve, reject) => {
+    api.put('/articles/' + id + '/clap').then(respone => {
+      resolve(respone.data)
+    }, respone => {
+      reject(respone)
+    })
+  })
+}
+
+var getRelated = (id) => {
+  return new Promise((resolve, reject) => {
+    api.get('/articles/' + id + '/related').then(respone => {
+      resolve(respone.data)
+    }, respone => {
+      reject(respone)
+    })
+  })
+}
+
 export default {
   getList,
   createArticle,
-  getDetail
+  getDetail,
+  getTags,
+  clap,
+  getRelated
 }

@@ -56,4 +56,9 @@ ArticleSchema.methods.comment = function (c) {
   return this.save()
 }
 
+ArticleSchema.methods.clap = function () {
+  this.likes ++
+  return this.save()
+}
+
 module.exports = mongoose.model('Article', ArticleSchema)

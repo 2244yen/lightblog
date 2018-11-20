@@ -1,35 +1,26 @@
 import React from 'react'
 import SearchForm from './SearchForm'
 import AsideFeed from '../AsideFeed'
-import { connect } from 'react-redux'
+import AsideTags from '../AsideTags'
 import './index.scss'
 
-class Sidebar extends React.Component {
-  render () {
-    return (
-      <div>
-        <aside>
-          {/*<SearchForm search={ this.searchInSidebar } />*/}
-          <SearchForm />
-        </aside>
-        <aside>
-          <h4>Bài viết nổi bật</h4>
-          <AsideFeed />
-        </aside>
-        <aside>
-          <h4>Tags</h4>
-        </aside>
-      </div>
-    )
-  }
-
-  // searchInSidebar = (data, path) => {
-  //   this.props.search(data, path)
-  // }
+function Sidebar (props) {
+  return (
+    <div>
+      <aside>
+        {/*<SearchForm search={ this.searchInSidebar } />*/}
+        <SearchForm />
+      </aside>
+      <aside>
+        <h4><b>Bài viết nổi bật</b></h4>
+        <AsideFeed />
+      </aside>
+      <aside>
+        <h4><b>Tags</b></h4>
+        <AsideTags />
+      </aside>
+    </div>
+  )
 }
 
-function mapStateToProps (state) {
-  return { articles: state.articleReducer.articles }
-}
-
-export default connect(mapStateToProps)(Sidebar)
+export default Sidebar

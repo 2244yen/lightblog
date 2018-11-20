@@ -7,14 +7,13 @@ const mongoose = require('mongoose')
 const cloudinary = require('cloudinary')
 const helmet = require('helmet')
 const app = express()
-// const articleRouter = require('./routes/article')
-// const userRouter = require('./routes/user')
 const apiRoutes = require('./routes/api')
 const isProduction = process.env.NODE_ENV === 'production'
 
 app.use(cors())
 app.use(require('morgan')('dev'))
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(helmet())
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -30,8 +29,8 @@ cloudinary.config({
 })
 
 // Connect mongoDB
-mongoose.set('debug', true)
 mongoose.Promise = global.Promise
+mongoose.set('debug', true)
 const uri = "mongodb+srv://linhdang:0yICd4OZXIeFSsji@cluster0-wrwld.mongodb.net/lightblogDB?retryWrites=true"
 const serverOptions = {
   useNewUrlParser: true,
@@ -76,16 +75,4 @@ if (!isProduction) {
   })
 }
 
-app.use((err, req, res) => {
-  res.status(err.status || 500)
-
-  res.json({
-    errors: {
-      message: err.message,
-      error: {},
-    }
-  })
-})
-
 const server = app.listen(8000, () => console.log('Server started on http://localhost:8000'))
-server.timeout = 1000

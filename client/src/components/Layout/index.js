@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom';
 import Header from '../Header'
 import Sidebar from '../Sidebar'
+import Footer from '../Footer'
 
 class Layout extends React.Component {
   constructor (props) {
@@ -22,6 +23,7 @@ class Layout extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     )
   }

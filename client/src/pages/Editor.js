@@ -4,7 +4,7 @@ import ArticleForm from '../components/ArticleView/Form'
 function Editor (props) {
   return (
     <div>
-      <h2>Create Article</h2>
+      <h2>Tạo bài viết</h2>
       <ArticleForm />
     </div>
   )

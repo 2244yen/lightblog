@@ -4,7 +4,7 @@ import Articles from '../components/Articles'
 function Category (props) {
   return (
     <div>
-      <Articles history={props.history}/>
+      <Articles history={props.history} slug={props.match.params.id} />
     </div>
   )
 }
