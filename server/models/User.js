@@ -10,6 +10,9 @@ const UserSchema = mongoose.Schema({
     type: String,
     unique: [true, 'Email này đã tồn tại trong hệ thống!']
   },
+  password: {
+    type: String
+  },
   name: String,
   biography: String,
   picture: String,
@@ -18,5 +21,11 @@ const UserSchema = mongoose.Schema({
     default: Date.now
   }
 }, { collection: 'users' })
+
+UserSchema.methods.create = function (data) {
+  this.username = data.username
+  this.email = data.email
+  this.password = data.password
+}
 
 module.exports = mongoose.model('User', UserSchema)

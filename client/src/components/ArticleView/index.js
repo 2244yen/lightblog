@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { toggleOpen } from '../../redux/actions/commonAction'
 import RelatedPost from '../RelatedPost'
+import Comment from './Comment'
 import apiArticle from '../../services/article'
 import './index.scss'
 
@@ -87,6 +88,7 @@ class ArticleView extends Component {
           }
         </div>
         <RelatedPost id={ this.props.articleId }/>
+        { /*<Comment id={ this.props.articleId } />*/ }
       </div>
     )
   }
